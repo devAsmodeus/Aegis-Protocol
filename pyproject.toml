@@ -44,7 +44,7 @@ dev = [
     "mypy>=1.13",
     "types-redis>=4.6",
     "pre-commit>=4.0",
-    "bandit>=1.7",
+    "bandit>=1.9.4",
     "pip-audit>=2.7",
 ]
 
@@ -64,7 +64,7 @@ dev = [
     "mypy>=1.13",
     "types-redis>=4.6",
     "pre-commit>=4.0",
-    "bandit>=1.7",
+    "bandit>=1.9.4",
     "pip-audit>=2.7",
 ]
 
