@@ -45,7 +45,7 @@ dev = [
     "types-redis>=4.6",
     "pre-commit>=4.0",
     "bandit>=1.9.4",
-    "pip-audit>=2.7",
+    "pip-audit>=2.10.0",
 ]
 
 [project.urls]
@@ -65,7 +65,7 @@ dev = [
     "types-redis>=4.6",
     "pre-commit>=4.0",
     "bandit>=1.9.4",
-    "pip-audit>=2.7",
+    "pip-audit>=2.10.0",
 ]
 
 [tool.ruff]
