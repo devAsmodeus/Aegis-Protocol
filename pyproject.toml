@@ -30,7 +30,7 @@ dependencies = [
     "redis>=5.0",
     "fastembed>=0.4",
     "qdrant-client>=1.12",
-    "structlog>=24.4",
+    "structlog>=25.5.0",
     "python-dotenv>=1.0",
     "web3>=7.4",
 ]
