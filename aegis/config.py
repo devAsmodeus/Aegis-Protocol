@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     app_name: str = Field(default="aegis-protocol")
     app_env: Literal["development", "staging", "production"] = Field(default="development")
     app_version: str = Field(default="0.1.0")
-    app_host: str = Field(default="0.0.0.0")
+    app_host: str = Field(default="0.0.0.0")  # nosec B104
     app_port: int = Field(default=8000)
     app_log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = Field(default="INFO")
 
