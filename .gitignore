@@ -18,9 +18,8 @@ env/
 ENV/
 .python-version
 
-# uv
+# uv (lock file IS committed for reproducibility)
 .uv-cache/
-uv.lock
 
 # Testing & coverage
 .pytest_cache/
