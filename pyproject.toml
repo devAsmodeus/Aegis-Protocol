@@ -37,7 +37,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.3",
+    "pytest>=9.0.3",
     "pytest-asyncio>=0.24",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.12",
@@ -57,7 +57,7 @@ packages = ["aegis"]
 
 [dependency-groups]
 dev = [
-    "pytest>=8.3",
+    "pytest>=9.0.3",
     "pytest-asyncio>=0.24",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.12",
