@@ -43,6 +43,9 @@ jobs:
       - name: pytest
         run: uv run pytest -v --cov=aegis --cov-report=xml --cov-report=term
 
+      - name: pip-audit
+        run: uv run pip-audit
+
       - name: Upload coverage
         if: always()
         uses: actions/upload-artifact@v7
