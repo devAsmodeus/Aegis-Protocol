@@ -37,6 +37,12 @@ This file is updated as the project grows. Each entry names the area, the tool, 
 - **`aegis/agent/`** (Claude Code): drafted the bounded async tool-loop runtime. `aegis/agent/types.py` defines frozen `AgentRequest`, `AgentResponse`, `ToolCall`, `ToolResult`, `LLMOutput`, `ReceiptDraft` dataclasses. `aegis/agent/protocol.py` defines `LLMClient`, `Tool`, `ReceiptSink` `Protocol`s. `aegis/agent/runtime.py` implements `Runtime.run` with a hard `max_tool_calls` budget, content-hash deduplication, and per-run `ReceiptDraft` writes. `aegis/agent/stubs.py` provides deterministic `EchoLLM` and `StaticToolPlanLLM` so the loop is testable without a real model. `aegis/agent/tools/rag.py` wraps `RagService` as the first concrete `Tool`. `aegis/agent/db_sink.py` provides a SQLAlchemy-backed `SqlReceiptSink` writing to the `Receipt` model from Day 2. The async-tool-loop pattern is referenced architecturally from the author's prior project OpenClaw (Bitrix24 plugin); no code is reused.
 - Tests cover happy-path text, tool dispatch, budget exhaustion, unknown tool error, and receipt fidelity (hashes, ordered `tools_used`, dedupe).
 
+### Day 5 — channel adapters (2026-05-01)
+
+- **`aegis/channels/`** (Claude Code): drafted the channel-adapter layer. `aegis/channels/base.py` defines `IncomingMessage`, `OutgoingMessage`, `IncomingHandler`, and the `ChannelAdapter` `Protocol`. `aegis/channels/memory.py` provides an in-memory adapter for unit tests. `aegis/channels/telegram.py` and `aegis/channels/discord.py` are AIOgram- and discord.py-backed adapters with lazy imports — both libraries live behind new optional extras (``telegram``, ``discord``) so the default install stays slim. The channel-adapter pattern is referenced architecturally from the author's prior project OpenClaw; no code is reused.
+- **`pyproject.toml`** (Claude Code): added `telegram = ["aiogram>=3.13"]` and `discord = ["discord.py>=2.5"]` extras and extended the `[[tool.mypy.overrides]]` block to cover them.
+- Tests use `monkeypatch.setitem(sys.modules, ...)` to inject fake `aiogram` / `discord` modules so the lazy imports resolve to record-only stand-ins — no real network, no token, no docker.
+
 ## What is NOT AI-generated
 
 - The product concept, prize-track strategy, and architecture decisions originate from the author's planning sessions documented in `Compass/01-Projects/aegis-protocol/overview.md` (private Obsidian vault).

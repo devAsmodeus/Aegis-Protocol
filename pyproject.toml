@@ -50,6 +50,12 @@ dev = [
 rerank = [
     "flashrank>=0.2.10",
 ]
+telegram = [
+    "aiogram>=3.13",
+]
+discord = [
+    "discord.py>=2.5",
+]
 
 [project.urls]
 Repository = "https://github.com/devAsmodeus/Aegis-Protocol"
@@ -112,8 +118,8 @@ explicit_package_bases = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-# Optional rerank extra: not installed in the default `dev` group.
-module = ["flashrank"]
+# Optional extras: not installed in the default `dev` group.
+module = ["flashrank", "aiogram", "aiogram.types", "discord"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
