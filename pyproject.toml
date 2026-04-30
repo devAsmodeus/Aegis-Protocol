@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aegis"
-version = "0.2.0"
+version = "0.3.0"
 description = "Trustworthy AI support agent for Web3 — ENS-verified, on-chain context, TEE-verified inference on 0G"
 readme = "README.md"
 license = { text = "MIT" }
