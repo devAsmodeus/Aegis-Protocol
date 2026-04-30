@@ -11,7 +11,8 @@ from aegis.retrieval.types import RetrievalHit, RetrievalQuery
 class Retriever(Protocol):
     """Returns up to `k` hits for `query`. Order: most relevant first."""
 
-    async def retrieve(self, query: RetrievalQuery, k: int) -> list[RetrievalHit]: ...
+    async def retrieve(self, query: RetrievalQuery, k: int) -> list[RetrievalHit]:
+        """Return up to `k` candidate hits, most relevant first."""
 
 
 @runtime_checkable
@@ -23,4 +24,5 @@ class Reranker(Protocol):
         query: RetrievalQuery,
         hits: list[RetrievalHit],
         k: int,
-    ) -> list[RetrievalHit]: ...
+    ) -> list[RetrievalHit]:
+        """Return up to `k` reordered hits drawn from the input list."""
