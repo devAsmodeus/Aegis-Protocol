@@ -20,6 +20,13 @@ This file is updated as the project grows. Each entry names the area, the tool, 
 - **CI/CD configuration** (Claude Code): drafted GitHub Actions workflows (CI, CodeQL, Dependabot, release-please), pre-commit config, and PR/issue templates.
 - **`docs/ARCHITECTURE.md`** (Claude Code): drafted architecture overview based on the planning notes in the author's private Obsidian vault.
 
+### Day 2 — data & retrieval (2026-04-30)
+
+- **`aegis/db/`** (Claude Code, PR #22): drafted multi-tenant ORM (`Tenant`, `Conversation`, `Message`, `Receipt`), Alembic environment + initial migration, async SQLAlchemy session factory. Schema decisions (UUID PKs, `TimestampMixin`, content-hash receipts) come from the author's planning notes.
+- **`aegis/retrieval/`** (Claude Code, PR #2): drafted hybrid retrieval module — `Retriever`/`Reranker` `Protocol`s, `RetrievalQuery`/`RetrievalHit` types with canonical `content_hash`, Reciprocal Rank Fusion, in-memory `StaticRetriever`/`IdentityReranker` stubs for unit tests, Qdrant-backed dense (`QdrantDenseRetriever`, FastEmbed `BAAI/bge-small-en-v1.5`) and sparse BM25 (`QdrantBM25Retriever`, FastEmbed `Qdrant/bm25`) adapters, and the `HybridPipeline` orchestrator. Hybrid-search pattern (BM25 + dense + RRF) is referenced architecturally from the author's prior production project Raggy; no code is reused.
+- **CodeQL config** (Claude Code, PR #23): drafted `.github/codeql/codeql-config.yml` to suppress false-positive `py/unused-*` findings on Alembic migration boilerplate and side-effect imports in tests.
+- **release-please PAT wiring** (Claude Code, PR #24): drafted optional `RELEASE_PLEASE_TOKEN` support in `.github/workflows/release-please.yml` so release PRs trigger CI/CodeQL automatically.
+
 ## What is NOT AI-generated
 
 - The product concept, prize-track strategy, and architecture decisions originate from the author's planning sessions documented in `Compass/01-Projects/aegis-protocol/overview.md` (private Obsidian vault).

@@ -41,7 +41,10 @@ jobs:
         run: uv run mypy aegis
 
       - name: pytest
-        run: uv run pytest -v --cov=aegis --cov-report=xml --cov-report=term
+        # Per CLAUDE.md §3: default CI stays green without docker. Tests that
+        # need Postgres / Qdrant / Redis / 0G / RPC carry the `integration`
+        # marker and are exercised locally or in a separate workflow.
+        run: uv run pytest -v -m "not integration" --cov=aegis --cov-report=xml --cov-report=term
 
       - name: pip-audit
         run: uv run pip-audit
