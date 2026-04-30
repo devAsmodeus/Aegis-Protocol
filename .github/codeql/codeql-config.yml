@@ -1,0 +1,24 @@
+name: Aegis CodeQL config
+
+# We exclude two trees from CodeQL analysis:
+#
+# - alembic/**            Alembic migration files declare module-level
+#                         globals (`revision`, `down_revision`,
+#                         `branch_labels`, `depends_on`) that Alembic
+#                         reads via reflection. CodeQL flags them as
+#                         "unused global variable" — false positives by
+#                         spec. `alembic/env.py` imports `aegis.db.models`
+#                         purely for the side effect of registering tables
+#                         on `Base.metadata`; the import has `# noqa: F401`.
+#
+# - tests/**              Schema-only tests load `aegis.db.models` for the
+#                         same metadata-registration side effect. Tests do
+#                         not ship to production; coverage there is provided
+#                         by pytest, not CodeQL.
+#
+# Application code under `aegis/` continues to be scanned with the full
+# default + security-and-quality query suite.
+
+paths-ignore:
+  - "alembic/**"
+  - "tests/**"
