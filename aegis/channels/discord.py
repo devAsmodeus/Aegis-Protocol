@@ -10,7 +10,7 @@ directly.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from aegis.channels.base import IncomingHandler, IncomingMessage, OutgoingMessage
 
@@ -67,7 +67,10 @@ class DiscordChannel:
         if message.conversation_external_id is None:
             return
         client = self._ensure_client()
-        target = client.get_channel(int(message.conversation_external_id))
+        # Discord's get_channel returns a Union including channel kinds
+        # without `.send` (e.g. CategoryChannel). Real bot deployments
+        # only point conversation_external_id at messageable channels.
+        target = cast(Any, client.get_channel(int(message.conversation_external_id)))
         if target is None:
             return
         await target.send(message.text)

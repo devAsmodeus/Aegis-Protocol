@@ -11,7 +11,7 @@ records ``send_message`` calls — no real network, no token.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from aegis.channels.base import IncomingHandler, IncomingMessage, OutgoingMessage
 
@@ -84,10 +84,16 @@ class TelegramChannel:
         bot = self._ensure_bot()
         dp = self._ensure_dispatcher()
 
-        @dp.message()  # type: ignore[untyped-decorator]
         async def _on_message(message: Message) -> None:
             incoming = self.to_incoming(message)
             outgoing = await handler(incoming)
             await self.send(outgoing)
+
+        # `dp.message()` registers the handler. Cast keeps the type
+        # surface consistent regardless of whether `aiogram` is
+        # installed in the type-checker's environment (CI installs the
+        # extra; default dev install does not).
+        decorator = cast(Any, dp.message())
+        decorator(_on_message)
 
         await dp.start_polling(bot)
