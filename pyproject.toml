@@ -111,6 +111,11 @@ namespace_packages = true
 explicit_package_bases = true
 plugins = ["pydantic.mypy"]
 
+[[tool.mypy.overrides]]
+# Optional rerank extra: not installed in the default `dev` group.
+module = ["flashrank"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 minversion = "8.0"
 addopts = "-ra -q --strict-markers --strict-config"
