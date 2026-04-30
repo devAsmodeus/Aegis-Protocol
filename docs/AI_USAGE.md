@@ -27,6 +27,11 @@ This file is updated as the project grows. Each entry names the area, the tool, 
 - **CodeQL config** (Claude Code, PR #23): drafted `.github/codeql/codeql-config.yml` to suppress false-positive `py/unused-*` findings on Alembic migration boilerplate and side-effect imports in tests.
 - **release-please PAT wiring** (Claude Code, PR #24): drafted optional `RELEASE_PLEASE_TOKEN` support in `.github/workflows/release-please.yml` so release PRs trigger CI/CodeQL automatically.
 
+### Day 3 — RAG service layer (2026-05-01)
+
+- **`aegis/rag/`** (Claude Code): drafted the public RAG surface on top of `aegis/retrieval/`. `RagService` wraps `HybridPipeline` and adds tenant scoping (threads `tenant_id` into `RetrievalQuery`) plus an optional top-`k` cap. `FlashRankReranker` adapts the FlashRank cross-encoder to the existing `Reranker` Protocol with a lazy import so the `flashrank` extra stays optional. Tests run without docker via `aegis/retrieval/stubs.py` and a fake `flashrank` module injected through `monkeypatch.setitem`.
+- **`pyproject.toml` rerank extra** (Claude Code): added `[project.optional-dependencies] rerank = ["flashrank>=0.2.10"]` and a `[[tool.mypy.overrides]]` block for the optional module.
+
 ## What is NOT AI-generated
 
 - The product concept, prize-track strategy, and architecture decisions originate from the author's planning sessions documented in `Compass/01-Projects/aegis-protocol/overview.md` (private Obsidian vault).

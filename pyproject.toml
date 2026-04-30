@@ -47,6 +47,9 @@ dev = [
     "bandit>=1.9.4",
     "pip-audit>=2.10.0",
 ]
+rerank = [
+    "flashrank>=0.2.10",
+]
 
 [project.urls]
 Repository = "https://github.com/devAsmodeus/Aegis-Protocol"
@@ -107,6 +110,11 @@ warn_unreachable = true
 namespace_packages = true
 explicit_package_bases = true
 plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+# Optional rerank extra: not installed in the default `dev` group.
+module = ["flashrank"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "8.0"
