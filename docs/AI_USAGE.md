@@ -32,6 +32,11 @@ This file is updated as the project grows. Each entry names the area, the tool, 
 - **`aegis/rag/`** (Claude Code): drafted the public RAG surface on top of `aegis/retrieval/`. `RagService` wraps `HybridPipeline` and adds tenant scoping (threads `tenant_id` into `RetrievalQuery`) plus an optional top-`k` cap. `FlashRankReranker` adapts the FlashRank cross-encoder to the existing `Reranker` Protocol with a lazy import so the `flashrank` extra stays optional. Tests run without docker via `aegis/retrieval/stubs.py` and a fake `flashrank` module injected through `monkeypatch.setitem`.
 - **`pyproject.toml` rerank extra** (Claude Code): added `[project.optional-dependencies] rerank = ["flashrank>=0.2.10"]` and a `[[tool.mypy.overrides]]` block for the optional module.
 
+### Day 4 — agent runtime (2026-05-01)
+
+- **`aegis/agent/`** (Claude Code): drafted the bounded async tool-loop runtime. `aegis/agent/types.py` defines frozen `AgentRequest`, `AgentResponse`, `ToolCall`, `ToolResult`, `LLMOutput`, `ReceiptDraft` dataclasses. `aegis/agent/protocol.py` defines `LLMClient`, `Tool`, `ReceiptSink` `Protocol`s. `aegis/agent/runtime.py` implements `Runtime.run` with a hard `max_tool_calls` budget, content-hash deduplication, and per-run `ReceiptDraft` writes. `aegis/agent/stubs.py` provides deterministic `EchoLLM` and `StaticToolPlanLLM` so the loop is testable without a real model. `aegis/agent/tools/rag.py` wraps `RagService` as the first concrete `Tool`. `aegis/agent/db_sink.py` provides a SQLAlchemy-backed `SqlReceiptSink` writing to the `Receipt` model from Day 2. The async-tool-loop pattern is referenced architecturally from the author's prior project OpenClaw (Bitrix24 plugin); no code is reused.
+- Tests cover happy-path text, tool dispatch, budget exhaustion, unknown tool error, and receipt fidelity (hashes, ordered `tools_used`, dedupe).
+
 ## What is NOT AI-generated
 
 - The product concept, prize-track strategy, and architecture decisions originate from the author's planning sessions documented in `Compass/01-Projects/aegis-protocol/overview.md` (private Obsidian vault).
