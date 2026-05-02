@@ -43,6 +43,11 @@ This file is updated as the project grows. Each entry names the area, the tool, 
 - **`pyproject.toml`** (Claude Code): added `telegram = ["aiogram>=3.13"]` and `discord = ["discord.py>=2.5"]` extras and extended the `[[tool.mypy.overrides]]` block to cover them.
 - Tests use `monkeypatch.setitem(sys.modules, ...)` to inject fake `aiogram` / `discord` modules so the lazy imports resolve to record-only stand-ins — no real network, no token, no docker.
 
+### Day 6 — on-chain context tools (2026-05-02)
+
+- **`aegis/chain/`** (Claude Code): drafted on-chain context helpers consumed by the Day 4 tool-loop. `aegis/chain/ens.py` defines `EnsResolverProtocol`, an `AsyncWeb3`-backed `EnsResolver` (forward + reverse lookups against `Settings.eth_rpc_url`), and a deterministic in-memory `StubEnsResolver`. `aegis/chain/wallet.py` defines a Pydantic `TxSummary` model, `WalletInspectorProtocol`, an `AsyncWeb3`-backed `WalletInspector` (balance in ETH, nonce, optional Etherscan-keyed recent-tx listing that logs and returns `[]` when no API key is configured), and a `StubWalletInspector` test fixture. `aegis/chain/simulator.py` defines Pydantic `TxRequest`/`SimulationResult` models, `TxSimulatorProtocol`, an `eth_call`-backed `TxSimulator`, a `StubTxSimulator`, and a `detect_warnings` heuristic that flags ERC-20 `approve` / `increaseAllowance` calls with `uint256.max` allowance as `unlimited_approval` — the anti-rug-pull guard called out in `README.md`. `aegis/chain/tools.py` registers `resolve_ens`, `inspect_wallet`, and `simulate_tx` as concrete `Tool`s for `aegis.agent.runtime.Runtime`.
+- Tests run without docker via the Stub impls: ENS resolve/reverse hit + miss, wallet balance/nonce/recent-tx fixtures, simulator success path + unlimited-approval warning detection (including the `increaseAllowance` variant and dedupe), plus a tool-wrapper test that verifies all three tools satisfy `aegis.agent.protocol.Tool` and return well-formed JSON dicts in `ToolResult.output`.
+
 ## What is NOT AI-generated
 
 - The product concept, prize-track strategy, and architecture decisions originate from the author's planning sessions documented in `Compass/01-Projects/aegis-protocol/overview.md` (private Obsidian vault).
