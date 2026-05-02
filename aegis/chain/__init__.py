@@ -19,6 +19,20 @@ unit tests deterministic fixtures without docker or a real RPC.
 from __future__ import annotations
 
 from aegis.chain.ens import EnsResolver, EnsResolverProtocol, StubEnsResolver
+from aegis.chain.ens_subname import (
+    ENS_REGISTRY_MAINNET,
+    StubSubnameRegistrar,
+    label_hash,
+    namehash,
+    register_subname,
+)
+from aegis.chain.registry import (
+    AegisRegistry,
+    AegisRegistryProtocol,
+    AgentRecord,
+    StubAegisRegistry,
+    load_deployment,
+)
 from aegis.chain.simulator import (
     SimulationResult,
     StubTxSimulator,
@@ -35,13 +49,19 @@ from aegis.chain.wallet import (
 )
 
 __all__ = [
+    "ENS_REGISTRY_MAINNET",
+    "AegisRegistry",
+    "AegisRegistryProtocol",
+    "AgentRecord",
     "EnsResolver",
     "EnsResolverProtocol",
     "InspectWalletTool",
     "ResolveEnsTool",
     "SimulateTxTool",
     "SimulationResult",
+    "StubAegisRegistry",
     "StubEnsResolver",
+    "StubSubnameRegistrar",
     "StubTxSimulator",
     "StubWalletInspector",
     "TxRequest",
@@ -50,4 +70,8 @@ __all__ = [
     "TxSummary",
     "WalletInspector",
     "WalletInspectorProtocol",
+    "label_hash",
+    "load_deployment",
+    "namehash",
+    "register_subname",
 ]
