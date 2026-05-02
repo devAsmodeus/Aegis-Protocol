@@ -56,6 +56,9 @@ telegram = [
 discord = [
     "discord.py>=2.5",
 ]
+contracts = [
+    "py-solc-x>=2.0",
+]
 
 [project.urls]
 Repository = "https://github.com/devAsmodeus/Aegis-Protocol"

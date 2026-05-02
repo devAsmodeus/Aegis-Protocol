@@ -66,6 +66,11 @@ contracts/cache/
 contracts/artifacts/
 contracts/typechain-types/
 
+# Deployment artifacts (per-chain JSON written by scripts/deploy_registry.py)
+# CLAUDE.md §3: never commit filled-in deployments for any real network.
+contracts/deployments/*.json
+!contracts/deployments/.gitkeep
+
 # OS / misc
 Thumbs.db
 *.bak

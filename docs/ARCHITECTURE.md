@@ -79,6 +79,10 @@ Foreign keys enforce tenant isolation. All vector embeddings live in Qdrant, par
 - **Agent runtime ↔ 0G Storage / DA / Chain:** signed transactions from the agent's wallet.
 - **Tenant ↔ Agent:** RBAC via wallet signatures on the admin panel; the agent's ENS subname provides public verifiability.
 
+## On-chain registry trust model
+
+`AegisRegistry.sol` (deployed to the 0G chain) is the public source of truth for "which wallet runs which `support.<project>.eth` agent". The contract is intentionally minimal — no proxy, no upgrade path, no admin keys, no external deps. Trust derives from two things only: (1) the immutable bytecode at the deployed address, and (2) the project's signing key, which is the sole controller of every record it created. A user verifying a Telegram or Discord bot reads `AegisRegistry.get("support.<project>.eth")`, checks that `record.active == true` and that `record.owner` matches the project's known wallet, then optionally cross-checks the knowledge-base CID hash against what the agent claims to be serving. Per `CLAUDE.md` §3, the agent runtime never signs registry transactions automatically: `aegis.chain.registry.AegisRegistry.register` returns an unsigned tx dict by default, and signing is the caller's job.
+
 ## Roadmap mapping
 
 | Day | Component delivered |
