@@ -8,6 +8,19 @@
 
 A self-deployable AI support agent for Web3 communities (DAOs, protocols, dApps). Aegis Protocol solves a uniquely-Web3 problem: scammers impersonate official support in Discord and Telegram channels and drain user wallets. Generic chatbots (Intercom, Drift) cannot help — they have no on-chain context, no verifiable identity, and no cryptographic proof of inference.
 
+## Quickstart
+
+Pick your language and follow the step-by-step guide:
+
+- 🇬🇧 **English:** [docs/QUICKSTART.en.md](docs/QUICKSTART.en.md)
+- 🇷🇺 **Русский:** [docs/QUICKSTART.ru.md](docs/QUICKSTART.ru.md)
+
+For a five-minute end-to-end demo (no docker required), see [docs/DEMO.md](docs/DEMO.md) or run:
+
+```bash
+uv run python -m scripts.demo_walkthrough
+```
+
 ## What makes Aegis different
 
 | | Generic chatbot | **Aegis Protocol** |
@@ -39,48 +52,64 @@ A self-deployable AI support agent for Web3 communities (DAOs, protocols, dApps)
           ├─ wallet lookup                   ↓
           ├─ tx simulation                   ↓
           ├─ live protocol state             ↓
-          └─ ENS resolver                    ↓
+          ├─ ENS resolver                    ↓
+          └─ AegisRegistry                   ↓
                 ↓                            ↓
           [Verified Response] ───────────────┘
                 ↓
           [Receipt on 0G Chain]
                 ↓
           [Reply via channel → User]
+
+  (cron) ──→ [/v1/keeper] ──→ [KeeperRegistry] ──→ scheduled tasks
+  (admin) ─→ [/v1/admin]  ──→ read-only audit + agent listing
 ```
 
 Full architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Tech stack
 
-- **Backend:** Python 3.12, FastAPI, async SQLAlchemy, asyncpg
-- **Storage:** PostgreSQL (tenants), Redis (cache), Qdrant (vectors)
+- **Backend:** Python 3.12, FastAPI, async SQLAlchemy 2, asyncpg
+- **Storage:** PostgreSQL 16, Redis 7, Qdrant
 - **AI/RAG:** FastEmbed, BM25 + RRF hybrid search, FlashRank reranker
-- **Web3:** 0G Storage / Compute / DA / Chain, ENS, web3.py
+- **Web3:** 0G Storage / Compute / DA / Chain, ENS, web3.py, Solidity 0.8.24
 - **Channels:** AIOgram (Telegram), discord.py (Discord)
 - **Tooling:** uv, Ruff, mypy, pytest, pre-commit, GitHub Actions
 
+## Components by prize track
+
+| Track | Modules | What it delivers |
+|---|---|---|
+| **0G — Best Autonomous Agents** | `aegis/agent/`, `aegis/rag/`, `aegis/retrieval/` | Bounded async tool-loop runtime, hybrid retrieval, content-hashed receipts. |
+| **ENS** | `aegis/chain/ens.py`, `aegis/chain/ens_subname.py`, `aegis/chain/registry.py`, `contracts/AegisRegistry.sol` | Forward / reverse ENS resolution, EIP-137 hashing helpers, on-chain agent registry. |
+| **KeeperHub** | `aegis/keeper/`, `aegis/api/keeper.py` | Scheduled task infrastructure (`ScheduledTask`/`KeeperRegistry`) + HMAC-authenticated `/v1/keeper/tasks/{name}/run` webhook. |
+| **Admin / observability** | `aegis/api/admin.py` | Bearer-protected read-only API for tenant listing, receipt audit, upstream healthcheck. |
+
 ## Setup
 
-Prerequisites: Python 3.12+, [uv](https://docs.astral.sh/uv/), Docker.
+See [docs/QUICKSTART.en.md](docs/QUICKSTART.en.md) (or [docs/QUICKSTART.ru.md](docs/QUICKSTART.ru.md)) for the full step-by-step guide. The short version:
 
 ```bash
 git clone https://github.com/devAsmodeus/Aegis-Protocol.git
 cd Aegis-Protocol
-
-# Install dependencies
 uv sync
-
-# Spin up infra (postgres, redis, qdrant)
 docker compose up -d
-
-# Apply database migrations
+cp .env.example .env
 uv run alembic upgrade head
-
-# Run the API
 uv run uvicorn aegis.main:app --reload
 ```
 
 Verify: `curl http://localhost:8000/health` → `{"status":"ok","version":"0.1.0"}`.
+
+## Demo
+
+```bash
+uv run python -m scripts.demo_walkthrough
+```
+
+Prints a captioned transcript covering registry → agent → receipt → ENS verification → keeper task. Pure stubs, no docker, no network.
+
+For the judge-facing walkthrough see [docs/DEMO.md](docs/DEMO.md).
 
 ## Development
 
@@ -88,15 +117,10 @@ Verify: `curl http://localhost:8000/health` → `{"status":"ok","version":"0.1.0
 # Install pre-commit hooks
 uv run pre-commit install
 
-# Lint + format
-uv run ruff check .
-uv run ruff format .
-
-# Type check
-uv run mypy src
-
-# Tests
-uv run pytest -v
+# Pre-commit gates (must all be green before each commit, per CLAUDE.md §3)
+uv run pytest -m "not integration"
+uv run ruff check . && uv run ruff format --check .
+uv run mypy aegis
 ```
 
 ## Hackathon context
