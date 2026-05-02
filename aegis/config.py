@@ -44,6 +44,9 @@ class Settings(BaseSettings):
     telegram_bot_token: str | None = Field(default=None)
     discord_bot_token: str | None = Field(default=None)
 
+    keeper_signing_secret: str | None = Field(default=None)
+    admin_api_token: str | None = Field(default=None)
+
     sentry_dsn: str | None = Field(default=None)
 
 

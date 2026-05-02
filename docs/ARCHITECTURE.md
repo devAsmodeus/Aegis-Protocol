@@ -42,6 +42,8 @@ Aegis Protocol is a **self-deployable AI support agent for Web3 communities**. I
 | Component | Code location | Purpose |
 |---|---|---|
 | **HTTP API** | `aegis/api/` | REST endpoints, webhooks, admin panel backend |
+| **Admin API** | `aegis/api/admin.py` | Bearer-protected read-only endpoints: agents listing, receipt audit, upstream healthcheck |
+| **Keeper webhook** | `aegis/api/keeper.py`, `aegis/keeper/` | KeeperHub-style scheduled tasks; HMAC-SHA256 webhook + task registry + concrete tasks (refresh docs, rotate audit log, healthcheck upstreams) |
 | **Agent runtime** | `aegis/agent/` | Observe → decide → act loop, tool registry |
 | **0G Storage client** | `aegis/storage/zerog.py` | Upload/retrieve documents and embeddings |
 | **0G Compute client** | `aegis/compute/zerog.py` | TEE-verified LLM inference |
