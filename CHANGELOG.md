@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.0](https://github.com/devAsmodeus/Aegis-Protocol/compare/v0.3.0...v0.4.0) (2026-05-03)
+
+
+### Features
+
+* **chain:** on-chain context tools (ENS, wallet, tx simulation) ([#30](https://github.com/devAsmodeus/Aegis-Protocol/issues/30)) ([cb61bf4](https://github.com/devAsmodeus/Aegis-Protocol/commit/cb61bf44a8cff0cc9304bd3d582a7641ecaab2b2))
+* **keeper+docs:** scheduled tasks, admin API, bilingual quickstart, demo walkthrough ([#33](https://github.com/devAsmodeus/Aegis-Protocol/issues/33)) ([36ef61e](https://github.com/devAsmodeus/Aegis-Protocol/commit/36ef61e12eee753fb8f7361abbb3dfe741cb32f8))
+* **registry:** on-chain ENS subname registry + AegisRegistry.sol ([#32](https://github.com/devAsmodeus/Aegis-Protocol/issues/32)) ([95c12b6](https://github.com/devAsmodeus/Aegis-Protocol/commit/95c12b6301e672786d1d2707804f768a09a6ed1b))
+
+
+### Documentation
+
+* **readme:** add 30-second demo block + ETHGlobal polish ([#34](https://github.com/devAsmodeus/Aegis-Protocol/issues/34)) ([b219ac8](https://github.com/devAsmodeus/Aegis-Protocol/commit/b219ac8da4f849ff5d9b89857eb7a1ea70355974))
+
 ## [0.3.0](https://github.com/devAsmodeus/Aegis-Protocol/compare/v0.2.0...v0.3.0) (2026-04-30)
 
 
