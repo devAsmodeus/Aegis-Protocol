@@ -51,7 +51,7 @@ rerank = [
     "flashrank>=0.2.10",
 ]
 telegram = [
-    "aiogram>=3.13",
+    "aiogram>=3.27.0",
 ]
 discord = [
     "discord.py>=2.5",
