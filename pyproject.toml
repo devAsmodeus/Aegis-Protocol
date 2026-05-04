@@ -57,7 +57,7 @@ discord = [
     "discord.py>=2.5",
 ]
 contracts = [
-    "py-solc-x>=2.0",
+    "py-solc-x>=2.0.5",
 ]
 
 [project.urls]
