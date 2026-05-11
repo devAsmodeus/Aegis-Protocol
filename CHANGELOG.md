@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/devAsmodeus/Aegis-Protocol/compare/v0.4.0...v0.4.1) (2026-05-11)
+
+
+### Bug Fixes
+
+* **deps:** bump mako to 1.3.12 (CVE-2026-44307) ([#45](https://github.com/devAsmodeus/Aegis-Protocol/issues/45)) ([e048239](https://github.com/devAsmodeus/Aegis-Protocol/commit/e04823987c57266f476606540e6e1b9dd5af2800))
+
 ## [0.4.0](https://github.com/devAsmodeus/Aegis-Protocol/compare/v0.3.0...v0.4.0) (2026-05-03)
 
 
