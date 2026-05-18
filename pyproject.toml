@@ -32,7 +32,7 @@ dependencies = [
     "qdrant-client>=1.17.1",
     "structlog>=25.5.0",
     "python-dotenv>=1.0",
-    "web3>=7.4",
+    "web3>=7.16.0",
 ]
 
 [project.optional-dependencies]
